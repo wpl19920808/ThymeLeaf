@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>part1:标准变量表达式 用${}</h1>
+<p th:text="${msg}">
+    abbbd
+</p>
+
+<div th:text="${msg}"></div>
+
+
+<p>
+    <span th:text="${user.nick}">x</span>
+    <span th:text="${user.phone}">188xxxxxxxx</span>
+    <span th:text="${user.email}">xx@xx.com</span>
+    <span th:text="${user.address}">bj</span>
+</p>
+
+<h1>
+    part2:选择变量表达式，用${}方式 + *{}方式
+</h1>
+<div th:object="${user}">
+    <p>nick:<span th:text="*{nick}">张</span></p>
+    <p>phone:<span th:text="*{phone}">137xxxxxxxx</span></p>
+    <p>email:<span th:text="*{email}">12@163.com</span></p>
+    <p>address:<span th:text="*{address}">shanghai</span></p>
+</div>
+
+<h1>part3:URL表达式，用@{}方式</h1>
+<!--前后用|符号，不用字符串拼接-->
+<a href="index.html" th:href="@{|http://localhost:8080/boot/user/info?id=${user.id}&phone=${user.phone}|}">查看</a>
+<br/>
+
+<a>相对页面地址</a>
+<a href="info.html" th:href="@{'user/info?id=' + ${user.id}}">查看</a>
+<br/>
+
+<a>相对上下文地址，始终保证加入项目工程</a>
+<a href="info.html" th:href="@{'/user/info?id=' + ${user.id}}">查看</a>
+<br/>
+
+<h1>from提交表单(有动态变量，可以用thymeleaf，静态地址可以用传统的)</h1>
+<form id="login" th:action="@{/boot/login}">
+
+</form>
+
+<h1>th:each，非常常用，可以循环遍历集合、数组、map</h1>
+<p th:each="user : ${userlist}">
+    <!--<span th:text="${user.id}">x</span>-->
+    <span th:text="${userStat.count}"></span><!--Stat 输出当前是第几个-->
+    <span th:text="${user.nick}">x</span>
+    <span th:text="${user.phone}">188xxxxxxxx</span>
+    <span th:text="${user.email}">xx@xx.com</span>
+    <span th:text="${user.address}">bj</span>
+</p>
+
+<br/>map遍历方法<br/>
+<!--此处报错是编译器问题，可以通过-->
+<p th:each="user : ${usermap}">
+    <span th:text="${user.key}"></span>
+    <span th:text="${user.value.nick}">x</span>
+    <span th:text="${user.value.phone}">188xxxxxxxx</span>
+    <span th:text="${user.value.email}">xx@xx.com</span>
+    <span th:text="${user.value.address}">bj</span>
+</p>
+</body>
+</html>
