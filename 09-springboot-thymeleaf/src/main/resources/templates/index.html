@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--命名空间必须加上-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -67,5 +68,79 @@
     <span th:text="${user.value.email}">xx@xx.com</span>
     <span th:text="${user.value.address}">bj</span>
 </p>
+
+<br/>id，定死不变的情况下，可以用传统方式，但是如果动态变化，可以用th标签<br/>
+<span id="username">aaa</span>
+<span th:text="${username}">aaa</span>
+
+<br/>if判断<br/>
+<span th:if="${sex eq 1}">男</span>
+<span th:if="${sex eq 2}">女</span>
+
+<br/>unless判断，是if相反的操作<br/>
+<span th:unless="${sex == 2}">男</span>
+
+<br/>switch case<br/>
+<div th:switch="${sex}">
+    性别：
+    <p th:case="1">男</p>
+    <p th:case="2">女</p>
+    <p th:case="*">位置</p><!--*代表default-->
+</div>
+
+<br/>th:src 外部资源引入，比如js,img，通常与@{}URL表达式结合使用<br/>
+<script th:src="@{/static/js/jquery-2.4.min.js}">aa</script>
+<img th:src="@{/images/img.png}"/>
+
+
+<br/>th:value<br/>
+<input th:value="${username}"/>
+
+<br/>th:onclick<br/>
+<span th:onclick="'clickme()'">22</span>
+<script>
+    function clickme(){
+        alert("dsff");
+    }
+</script>
+
+
+<br/>th:onstyle<br/>
+<div th:style="'display:none;'">
+    sdfsdf
+</div>
+
+<br/>th:method<br/><!--表单提交-->
+<form id="login2" th:action="@{/login2}" th:method="post">
+
+</form>
+
+<br/>th:name<br/><!--设置表单名称-->
+<input th:type="text" th:id="${user.nick}" th:name="${user.nick}"/>
+
+<br/>th:inline 内联文本text，内联脚本javascript，内联标签写到父级标签也可以<br/>
+<div th:inline="text">Hello,[[${user.nick}]]</div>
+
+<br/>内联脚本<br/>
+<script th:inline="javascript" type="text/javascript">
+    var user = [[${user.phone}]]
+    alert(user);
+</script>
+
+<script th:inline="javascript" type="text/javascript">
+    var msg = "hello" + [[${user.phone}]]
+    alert(msg)
+</script>
+
+<br/>request对象的使用<br/>
+<span th:text="${#request.getAttribute('name')}"/>
+
+<br/>session对象使用<br/>
+<span th:text="${#session.getAttribute('address')}"/>
+
+<br/>thymeleaf功能性对象，内置，比如集合，时间，数值，#开头<br/>
+<span th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">sdfsd</span>
+
+<span th:text="${#strings.substring(username, 0, 1)}">sdf</span>
 </body>
 </html>

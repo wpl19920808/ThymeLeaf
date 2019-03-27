@@ -5,16 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @Controller
 public class ThymeleafController {
 
     @RequestMapping("/boot/index")
-    public String index(Model model){
+    public String index(Model model, HttpServletRequest request){
         User user = new User();
         user.setId(1);
         user.setPhone("18812345678");
@@ -49,6 +47,17 @@ public class ThymeleafController {
             userMap.put(String.valueOf(i), u);
         }
         model.addAttribute("usermap", userMap);
+
+        model.addAttribute("username", "张三");
+
+        model.addAttribute("sex", 1);
+
+        //request中放数据，在页面中可以取到
+        request.setAttribute("name", "www.aisino.com");
+
+        request.getSession().setAttribute("address", "北京海淀");
+
+        model.addAttribute("date", new Date());
         return "index";
     }
 
